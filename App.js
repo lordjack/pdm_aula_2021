@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { View, Image } from 'react-native';
 import {
     Provider as PaperProvider,
     DefaultTheme,
     Appbar,
-    Menu,
+    Menu, Button, Colors
 } from "react-native-paper";
 import { NavigationContainer, useRoute } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -75,27 +76,56 @@ function CustomNavigationBar({ navigation, previous }) {
 }
 
 export default function App() {
-    return (
-        <PaperProvider theme={theme}>
-            <NavigationContainer>
-                <Stack.Navigator
-                    initialRouteName="Início"
-                    screenOptions={{
-                        header: (props) => <CustomNavigationBar {...props} />,
-                    }}
-                >
-                    <Stack.Screen name="Início" component={InicioScreens} />
-                    <Stack.Screen name="Formulário Contato" component={ContatoForm} />
-                    <Stack.Screen name="Registrar Usuário" component={RegistrarUsuarioForm} />
-                    <Stack.Screen name="Login" component={LoginForm} />
-                    <Stack.Screen name="Listagem de Contatos" component={ContatoList} />
-                    <Stack.Screen name="Mapa" component={MapaScreens} />
-                    <Stack.Screen name="Camera" component={CameraScreen} />
-                    <Stack.Screen name="Localização" component={LocalizacaoScreen} />
-                    <Stack.Screen name="Video" component={VideoScreen} />
 
-                </Stack.Navigator>
-            </NavigationContainer>
-        </PaperProvider>
+    const [appIsReady, setAppIsReady] = useState(true);
+
+    useEffect(() => {
+        try {
+            setTimeout(() => setAppIsReady(false), 2000);
+        } catch (error) {
+            console.warn(e)
+        }
+
+    }, []);
+    return (
+        <View
+            style={{
+                flex: 1,
+                alignItems: 'center',
+                flexDirection: 'row',
+                justifyContent: 'center'
+            }}
+        >
+            {appIsReady ? <View
+                style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}>
+                <Button mode="contained" loading={true} color={Colors.blue800}>
+                    Carredando
+                </Button>
+                <Image source={require('./assets/star-wars-cat-vs-dog.gif')} />
+            </View> :
+                <PaperProvider theme={theme}>
+                    <NavigationContainer>
+                        <Stack.Navigator
+                            initialRouteName="Início"
+                            screenOptions={{
+                                header: (props) => <CustomNavigationBar {...props} />,
+                            }}
+                        >
+                            <Stack.Screen name="Início" component={InicioScreens} />
+                            <Stack.Screen name="Formulário Contato" component={ContatoForm} />
+                            <Stack.Screen name="Registrar Usuário" component={RegistrarUsuarioForm} />
+                            <Stack.Screen name="Login" component={LoginForm} />
+                            <Stack.Screen name="Listagem de Contatos" component={ContatoList} />
+                            <Stack.Screen name="Mapa" component={MapaScreens} />
+                            <Stack.Screen name="Camera" component={CameraScreen} />
+                            <Stack.Screen name="Localização" component={LocalizacaoScreen} />
+                            <Stack.Screen name="Video" component={VideoScreen} />
+
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </PaperProvider>
+            }
+        </View>
+
     );
 }
