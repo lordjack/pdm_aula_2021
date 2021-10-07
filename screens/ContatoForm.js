@@ -118,6 +118,7 @@ export default class ContatoForm extends React.Component {
                     <Image style={styles.imagem} source={require("../assets/sem_imagem.png")} />
 
                 </TouchableOpacity>
+                <FAB style={styles.fab} icon="image-plus" onPress={() => alert("Selecionar Imagem")} />
                 <Title style={{ color: "red", textAlign: "center" }}>
                     Bem Vindo {nome ? nome : ""}
                 </Title>
@@ -157,6 +158,13 @@ export default class ContatoForm extends React.Component {
     }
 }
 const styles = StyleSheet.create({
+    fab: {
+        position: "absolute",
+        margin: 16,
+        right: 0,
+        bottom: widthGrid + 230,
+        backgroundColor: "#09f",
+    },
     imagem: {
         width: widthGrid + 170,
         height: widthGrid + 15,
