@@ -13,6 +13,8 @@ import {
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "../components/firebase";
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 
 let { width } = Dimensions.get("window");
 let numberGrid = 2;
@@ -26,10 +28,45 @@ export default class ContatoForm extends React.Component {
             nome: null,
             telefone: null,
             dataNascimento: null,
+            image: null,
+            hasPermission: null,
         };
     }
     async componentDidMount() {
         await this.carrregarDados();
+        this.getPermission();
+    }
+
+    getPermission = async () => {
+        if (Platform.OS === 'ios') {
+            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            if (status !== 'granted') {
+                alert('Hey! You might want to enable notifications for my app, they are good.');
+            }
+        }
+        const { status } = await Permissions.askAsync(Permissions.CAMERA);
+        this.setState({ hasPermission: status === "granted" });
+    };
+
+    selecionarImagem = async () => {
+        this.getPermission();
+
+        if (this.state.hasPermission) {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+
+            console.log(result);
+
+            if (!result.cancelled) {
+                console.log(result.uri);
+                this.setState({ image: result.uri });
+            }
+        }
+
     }
 
     salvar = async () => {
@@ -114,11 +151,17 @@ export default class ContatoForm extends React.Component {
                     alignItems: "center",
                     backgroundColor: 'transparent'
                 }}
-                    onPress={() => alert("Selecionar Imagem")}>
-                    <Image style={styles.imagem} source={require("../assets/sem_imagem.png")} />
+                    onPress={() => this.selecionarImagem()}>
+
+                    {this.state.image === null || this.state.image === undefined ?
+                        <Image style={styles.imagem} source={require("../assets/sem_imagem.png")} />
+                        :
+                        <Image style={styles.imagem} source={{ uri: this.state.image }} />
+
+                    }
 
                 </TouchableOpacity>
-                <FAB style={styles.fab} icon="image-plus" onPress={() => alert("Selecionar Imagem")} />
+                <FAB style={styles.fab} icon="image-plus" onPress={() => this.selecionarImagem()} />
                 <Title style={{ color: "red", textAlign: "center" }}>
                     Bem Vindo {nome ? nome : ""}
                 </Title>
