@@ -1,9 +1,11 @@
 import * as React from "react";
+import { TouchableOpacity, Image, StyleSheet, Dimensions } from "react-native";
 import {
     Card,
     Divider,
     TextInput,
     Text,
+    FAB,
     Title,
     Paragraph,
     Button,
@@ -11,6 +13,10 @@ import {
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "../components/firebase";
+
+let { width } = Dimensions.get("window");
+let numberGrid = 2;
+let widthGrid = width / numberGrid;
 
 export default class ContatoForm extends React.Component {
     constructor(props) {
@@ -103,6 +109,15 @@ export default class ContatoForm extends React.Component {
         }
         return (
             <>
+                <TouchableOpacity style={{
+                    alignSelf: "flex-end",
+                    alignItems: "center",
+                    backgroundColor: 'transparent'
+                }}
+                    onPress={() => alert("Selecionar Imagem")}>
+                    <Image style={styles.imagem} source={require("../assets/sem_imagem.png")} />
+
+                </TouchableOpacity>
                 <Title style={{ color: "red", textAlign: "center" }}>
                     Bem Vindo {nome ? nome : ""}
                 </Title>
@@ -124,7 +139,7 @@ export default class ContatoForm extends React.Component {
 
                 <Button mode="contained" onPress={() => this.salvar()}>
                     <Icon name="save"></Icon> Salvar
-        </Button>
+                </Button>
 
                 <Button
                     mode="contained"
@@ -136,11 +151,22 @@ export default class ContatoForm extends React.Component {
                     }
                 >
                     <Icon name="arrow-left"></Icon> Voltar
-        </Button>
+                </Button>
             </>
         );
     }
 }
+const styles = StyleSheet.create({
+    imagem: {
+        width: widthGrid + 170,
+        height: widthGrid + 15,
+        marginTop: 5,
+        marginRight: 30,
+        justifyContent: "center",
+        padding: 3,
+        borderRadius: 10,
+    },
+});
 /*
 //exemplu usando função
 function ContatoForm() {
