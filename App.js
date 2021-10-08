@@ -110,7 +110,7 @@ export default function App() {
                             screenOptions={{
                                 header: (props) => <CustomNavigationBar {...props} />,
                             }}
-                        >
+                        >  
                             <Stack.Screen name="Início" component={InicioScreens} />
                             <Stack.Screen name="Formulário Contato" component={ContatoForm} />
                             <Stack.Screen name="Registrar Usuário" component={RegistrarUsuarioForm} />
@@ -120,7 +120,6 @@ export default function App() {
                             <Stack.Screen name="Camera" component={CameraScreen} />
                             <Stack.Screen name="Localização" component={LocalizacaoScreen} />
                             <Stack.Screen name="Video" component={VideoScreen} />
-
                         </Stack.Navigator>
                     </NavigationContainer>
                 </PaperProvider>

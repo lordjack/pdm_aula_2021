@@ -69,13 +69,50 @@ export default class ContatoForm extends React.Component {
 
     }
 
+    uploadImage = async (uri, tipoImagem) => {
+        try {
+            const response = await fetch(uri);
+            const blob = await response.blob(uri);
+
+            var now = new Date();
+
+            var datetime = now.getFullYear() + '_' + (now.getMonth() + 1) + '_' + now.getDate();
+            datetime += '_' + now.getHours() + '_' + now.getMinutes() + '_' + now.getSeconds();
+
+            let path = "imagem/" + tipoImagem + '_' + datetime + ".jpg";
+
+            return new Promise((res, rej) => {
+                firebase.storage().ref()
+                    .child(path)
+                    .put(blob)
+                    .then((snapshot) => {
+                        snapshot.ref.getDownloadURL().then((downloadUrl) => {
+                            res({ uri: downloadUrl, path: path })
+                        })
+                    })
+                    .catch((error) => {
+                        rej(error)
+                    })
+            })
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
     salvar = async () => {
         let contato = {
             id: this.state.id,
             nome: this.state.nome,
             telefone: this.state.telefone,
             dataNascimento: this.state.dataNascimento,
+            imagem: this.state.image,
         };
+
+        if (contato.imagem) {
+
+            contato.imagem = await this.uploadImage(this.state.image, "contato");
+        }
 
         if (contato.id != null) {
 
@@ -85,6 +122,7 @@ export default class ContatoForm extends React.Component {
                 nome: contato.nome,
                 telefone: contato.telefone,
                 dataNascimento: contato.dataNascimento,
+                image: contato.imagem,
             }).then(() => {
                 console.log("Atualizado");
             }).catch((error) => {
@@ -99,6 +137,7 @@ export default class ContatoForm extends React.Component {
                 nome: contato.nome,
                 telefone: contato.telefone,
                 dataNascimento: contato.dataNascimento,
+                image: contato.imagem,
             }).then(() => {
                 console.log("inserido");
             }).catch((error) => {
