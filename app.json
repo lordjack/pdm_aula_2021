@@ -4,9 +4,9 @@
     "slug": "pdm_aula_2021",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/soap-face.gif",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/star-wars-cat-vs-dog.gif",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
