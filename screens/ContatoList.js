@@ -9,7 +9,7 @@ import {
     Paragraph,
     Button,
     List,
-    FAB,
+    FAB, IconButton
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "../components/firebase";
@@ -42,6 +42,7 @@ export default class ContatoList extends React.Component {
                         id: child.key,
                         nome: child.val().nome,
                         telefone: child.val().telefone,
+                        image: child.val().image,
                         dataNascimento: child.val().dataNascimento
                     });
                     console.log(vetorTemp);
@@ -114,7 +115,7 @@ export default class ContatoList extends React.Component {
                         transform: [{ scale }]
                     }}>
                     Ação Esquerda
-        </Animated.Text>
+                </Animated.Text>
             </View>
         )
     }
@@ -152,7 +153,7 @@ export default class ContatoList extends React.Component {
                                 transform: [{ scale }]
                             }}>
                             Deletar
-                    </Animated.Text>
+                        </Animated.Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -171,7 +172,7 @@ export default class ContatoList extends React.Component {
                                 transform: [{ scale }]
                             }}>
                             Editar
-                    </Animated.Text>
+                        </Animated.Text>
                     </View>
                 </TouchableOpacity>
             </>
@@ -213,12 +214,51 @@ export default class ContatoList extends React.Component {
 
                                             return this.rightActions(progress, dragX, objContato)
                                         }}>
-                                        <Divider />
-                                        <Paragraph>{i + 1}</Paragraph>
-                                        <Title>{item.nome}</Title>
-                                        <Paragraph>{item.telefone}</Paragraph>
-                                        <Paragraph>{item.dataNascimento}</Paragraph>
-                                        <Divider />
+                                        <Card>
+                                            <Card.Title
+                                                style={{ height: 150, backgroundColor: "#f8f9fa" }}
+                                                right={(props) => (
+                                                    <IconButton
+                                                        {...props}
+                                                        icon="dots-vertical"
+                                                        onPress={() => {
+                                                            Alert.alert(
+                                                                "Informações",
+                                                                "Arraste para o lado direito Edite ou Exclua, esquerdo para ver detalhes."
+                                                            );
+                                                        }}
+                                                    />
+                                                )}
+                                                left={(props) => (
+                                                    <View>
+                                                        {item.image === 0 || item.image === undefined ? (
+                                                            <Card.Cover
+                                                                style={styles.imagemCard}
+                                                                {...props}
+                                                                source={require("../assets/favicon.png")}
+                                                            />
+                                                        ) : (
+                                                            <Card.Cover
+                                                                style={styles.imagemCard}
+                                                                {...props}
+                                                                source={{
+                                                                    uri: item.image.uri,
+                                                                }}
+                                                            />
+                                                        )}
+                                                    </View>
+                                                )}
+                                            />
+                                            {console.log(item.imagem)}
+                                            <Divider />
+                                            <Card.Content style={styles.descricao}>
+                                                <Paragraph>{i + 1}</Paragraph>
+                                                <Title>{item.nome}</Title>
+                                                <Paragraph>{item.telefone}</Paragraph>
+                                                <Paragraph>{item.dataNascimento}</Paragraph>
+                                            </Card.Content>
+                                            <Divider />
+                                        </Card>
                                     </Swipeable>
                                 </>
                             ))}
@@ -251,6 +291,16 @@ const styles = StyleSheet.create({
         bottom: 0,
         backgroundColor: "orange",
     },
+    descricao: {
+        marginLeft: 130,
+        marginTop: 5,
+        position: "absolute"
+    },
+    imagemCard: {
+        width: 140,
+        height: 140,
+        marginLeft: -20
+    }
 });
 
 /*
