@@ -69,6 +69,17 @@ export default class ContatoList extends React.Component {
     remover = (key) => {
         var usuarioRef = firebase.database().ref("usuario/" + key);
 
+        usuarioRef.once("value")
+            .then((snapshot) => {
+                if (snapshot.val().image !== undefined) {
+                    firebase.storage().ref()
+                        .child(snapshot.val().image.path)
+                        .delete();
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+
         usuarioRef.remove().then(() => {
             console.log("Removido" + key);
         }).catch((error) => {
@@ -209,6 +220,7 @@ export default class ContatoList extends React.Component {
                                                 id: item.id,
                                                 nome: item.nome,
                                                 telefone: item.telefone,
+                                                image: item.image,
                                                 dataNascimento: item.dataNascimento,
                                             };
 

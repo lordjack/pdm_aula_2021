@@ -168,6 +168,7 @@ export default class ContatoForm extends React.Component {
                     id: contato.id,
                     nome: contato.nome,
                     telefone: contato.telefone,
+                    image: contato.image,
                     dataNascimento: contato.dataNascimento,
                 });
             }
@@ -185,6 +186,7 @@ export default class ContatoForm extends React.Component {
         }
         return (
             <>
+                {console.log(this.state.image)}
                 <TouchableOpacity style={{
                     alignSelf: "flex-end",
                     alignItems: "center",
@@ -195,7 +197,7 @@ export default class ContatoForm extends React.Component {
                     {this.state.image === null || this.state.image === undefined ?
                         <Image style={styles.imagem} source={require("../assets/sem_imagem.png")} />
                         :
-                        <Image style={styles.imagem} source={{ uri: this.state.image }} />
+                        <Image style={styles.imagem} source={{ uri: this.state.image.uri === undefined ? this.state.image : this.state.image.uri }} />
 
                     }
 
