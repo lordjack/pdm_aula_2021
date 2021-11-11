@@ -18,6 +18,7 @@ import MapaScreens from "./screens/MapaScreens";
 import CameraScreen from "./screens/CameraScreen";
 import LocalizacaoScreen from "./screens/LocalizacaoScreen";
 import VideoScreen from "./screens/VideoScreen";
+import MemeAPIList from "./screens/MemeAPIList";
 
 
 const Stack = createStackNavigator();
@@ -110,7 +111,7 @@ export default function App() {
                             screenOptions={{
                                 header: (props) => <CustomNavigationBar {...props} />,
                             }}
-                        >  
+                        >
                             <Stack.Screen name="Início" component={InicioScreens} />
                             <Stack.Screen name="Formulário Contato" component={ContatoForm} />
                             <Stack.Screen name="Registrar Usuário" component={RegistrarUsuarioForm} />
@@ -120,6 +121,7 @@ export default function App() {
                             <Stack.Screen name="Camera" component={CameraScreen} />
                             <Stack.Screen name="Localização" component={LocalizacaoScreen} />
                             <Stack.Screen name="Video" component={VideoScreen} />
+                            <Stack.Screen name="MemeAPI" component={MemeAPIList} />
                         </Stack.Navigator>
                     </NavigationContainer>
                 </PaperProvider>

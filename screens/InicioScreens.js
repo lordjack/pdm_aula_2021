@@ -98,6 +98,15 @@ export default function App(props) {
             >
                 <Icon name="play" color="white" size={24} /> Video
             </Button>
+            <Button
+                mode="contained"
+                onPress={() =>
+                    props.navigation.navigate("MemeAPI")
+                }
+            >
+                <Icon name="play" color="white" size={24} /> Meme API
+            </Button>
+
         </>
     );
 }
